@@ -12,7 +12,6 @@
 	
   <ItemGroup>
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.20.0" />
-    <PackageReference Include="Microsoft.TeamsAI" Version="1.0.*-*" />
   </ItemGroup>
 
   <!-- Include prompt as content in build output -->
@@ -42,6 +41,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>None</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\packages\Microsoft.TeamsAI\Microsoft.TeamsAI\Microsoft.TeamsAI.csproj" />
   </ItemGroup>
 	
 </Project>

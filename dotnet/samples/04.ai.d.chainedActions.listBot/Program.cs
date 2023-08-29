@@ -58,7 +58,12 @@ builder.Services.AddTransient<IBot, ListBotApplication>(sp =>
         {
             Prompt = "Chat"
         },
-        Storage = sp.GetService<IStorage>()
+        Storage = sp.GetService<IStorage>(),
+        // If user wants to use OAuthPrompt, initialize with:
+        AuthenticationOptions = new AuthenticationOptions("ConnectionName", "Hi", "Login"),
+        // If user wants to use TeamsBotSsoPromt, initialize with:
+        //    AuthenticationOptions = new AuthenticationOptions(
+        //"https://login.microsoftonline.com", "TenantId", "ClientId", "ClientSecret", "LoginEndpoint", "User.Read")
     };
 
     return new ListBotApplication(applicationOptions);
