@@ -29,17 +29,15 @@ provision:
       botId: BOT_ID
       botPassword: SECRET_BOT_PASSWORD
 
-  # # Automates the creation and configuration of a Bot Framework registration which is required for a bot.
-  # # This configures the bot to use the Azure AD app registration created in the previous step.
-  # # Teams Toolkit automatically creates a local Dev Tunnel URL and updates BOT_ENDPOINT when debugging (F5).
-  # - uses: botFramework/create
-  #   with:
-  #     botId: ${{BOT_ID}}
-  #     name: SsoAuthBot
-  #     messagingEndpoint: ${{BOT_ENDPOINT}}/api/messages
-  #     description: ""
-  #     channels:
-  #       - name: msteams
+  - uses: arm/deploy # Deploy given ARM templates parallelly.
+    with:
+      subscriptionId: ${{AZURE_SUBSCRIPTION_ID}} # The AZURE_SUBSCRIPTION_ID is a built-in environment variable. TeamsFx will ask you select one subscription if its value is empty. You're free to reference other environment varialbe here, but TeamsFx will not ask you to select subscription if it's empty in this case.
+      resourceGroupName: ${{AZURE_RESOURCE_GROUP_NAME}} # The AZURE_RESOURCE_GROUP_NAME is a built-in environment variable. TeamsFx will ask you to select or create one resource group if its value is empty. You're free to reference other environment varialbe here, but TeamsFx will not ask you to select or create resource grouop if it's empty in this case.
+      templates:
+        - path: ./infra/azure.bicep
+          parameters: ./infra/azure.parameters.json
+          deploymentName: Create-resources-for-bot
+      bicepCliVersion: v0.9.1 # Teams Toolkit will download this bicep CLI version from github for you, will use bicep CLI in PATH if you remove this config.
 
   # Optional: Automates schema and error checking of the Teams app manifest and outputs the results in the console.
   - uses: teamsApp/validateManifest

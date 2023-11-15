@@ -75,13 +75,20 @@ const app = new ApplicationBuilder<ApplicationTurnState>()
     .withStorage(storage)
     .withAuthentication(adapter, {
         settings: {
+            sharepoint: {
+                connectionName: process.env.SharepointConnectionName ?? '',
+                title: 'Sign in',
+                text: 'Please sign in to use the bot.',
+                endOnInvalidMessage: true
+            },
             graph: {
                 connectionName: process.env.ConnectionName ?? '',
                 title: 'Sign in',
                 text: 'Please sign in to use the bot.',
                 endOnInvalidMessage: true
             }
-        }
+        },
+        default: "graph"
     })
     .build();
 
