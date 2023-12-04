@@ -102,6 +102,6 @@
     ],
     "webApplicationInfo": {
         "id": "${{BOT_ID}}",
-        "resource": "api://botid-${{BOT_ID}}"
+        "resource": ""
     }
 }

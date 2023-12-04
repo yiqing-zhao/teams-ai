@@ -55,10 +55,6 @@ resource botServicesMicrosoftGraphConnection 'Microsoft.BotService/botServices/c
         key: 'tenantID'
         value: 'common'
       }
-      {
-        key: 'tokenExchangeUrl'
-        value: 'api://botid-${botAadAppClientId}'
-      }
     ]
   }
 }
