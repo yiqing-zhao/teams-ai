@@ -5,8 +5,12 @@
 # Replace 'YOUR_GITHUB_TOKEN' with your actual GitHub token
 GITHUB_TOKEN="<GITHUB_TOKEN>"
 REPO="microsoft/teams-ai"
-BASE_URL="https://api.github.com/repos/$REPO/contents/js/packages/teams-ai/src"
-CONTENT_BASE_URL="https://raw.githubusercontent.com/$REPO/main"
+CONTENT_URL_PREFIX="https://raw.githubusercontent.com/$REPO/main"
+
+BASE_URLS=(
+    "https://api.github.com/repos/$REPO/contents/js/packages"
+    "https://api.github.com/repos/$REPO/contents/js/samples"
+)
 
 # Function to recursively list files
 list_files() {
@@ -27,15 +31,22 @@ list_files() {
 
         # If the item is a file, output its name
         if [[ "$type" = "file" ]]; then
-            if [[ "$path" == *spec.ts || "$path" == *index.ts ]]; then
+            if [[ "$path" == *spec.ts ]]; then
                 continue
             fi
 
+            if ! [[ "$path" == *.ts || "$path" == *actions.json || "$path" == *skprompt.txt || "$path" == *config.json ]]; then
+                continue
+            fi
+        
+        echo "$CONTENT_URL_PREFIX/$path"
 
-
-            echo "$CONTENT_BASE_URL/$path"
         # If the item is a directory, recursively list its files
         elif [[ "$type" = "dir" ]]; then
+            if [[ "$path" == *index ]]; then
+                continue
+            fi
+
             list_files "https://api.github.com/repos/$REPO/contents/$path"
         else
             echo "Unknown type: $type"
@@ -44,4 +55,6 @@ list_files() {
 }
 
 # Output the list of files
-list_files "$BASE_URL"
+for BASE_URL in "${BASE_URLS[@]}"; do
+    list_files "$BASE_URL"
+done
