@@ -5,6 +5,7 @@
 import { config } from 'dotenv';
 import * as path from 'path';
 import * as restify from 'restify';
+import * as fs from 'fs';
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
@@ -72,8 +73,10 @@ import { addResponseFormatter } from './responseFormatter';
 import { VectraDataSource } from './VectraDataSource';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface ConversationState {}
-type ApplicationTurnState = TurnState<ConversationState>;
+interface ConversationState {
+    history: string[];
+}
+export type ApplicationTurnState = TurnState<ConversationState>;
 
 if (!process.env.OPENAI_KEY && !process.env.AZURE_OPENAI_KEY) {
     throw new Error('Missing environment variables - please check that OPENAI_KEY or AZURE_OPENAI_KEY is set.');
@@ -87,7 +90,7 @@ const model = new OpenAIModel({
 
     // Azure OpenAI Support
     azureApiKey: process.env.AZURE_OPENAI_KEY!,
-    azureDefaultDeployment: 'gpt-3.5-turbo',
+    azureDefaultDeployment: 'gpt-35-turbo',
     azureEndpoint: process.env.AZURE_OPENAI_ENDPOINT!,
     azureApiVersion: '2023-03-15-preview',
 
@@ -136,6 +139,29 @@ app.ai.action(
 app.ai.action(AI.FlaggedOutputActionName, async (context: TurnContext, state: ApplicationTurnState, data: any) => {
     await context.sendActivity(`I'm not allowed to talk about such things.`);
     return AI.StopCommandName;
+});
+
+app.turn("beforeTurn", async (context: TurnContext, state: ApplicationTurnState) => {
+    if (state.conversation.history === undefined) {
+        state.conversation.history = [];
+    }
+    if (context.activity.type === "message") {
+        if (state.conversation.history.length > 10) {
+            state.conversation.history.shift(); // Remove oldest message
+        }
+        state.conversation.history.push(context.activity.text);
+    }
+    return true;
+});
+
+app.messageReactions("reactionsAdded", async (context: TurnContext, state: ApplicationTurnState) => {
+    if (context.activity.reactionsAdded!.filter((reaction) => reaction.type === "no").length > 0)
+    {
+        const message = `Following user input does not satisfy user's requirement ${state.conversation.history[state.conversation.history.length -2]}. The response is ${state.conversation.history[state.conversation.history.length -1]}.`;
+        fs.appendFile('feedback.txt', message + '\n', (err) => {
+            if (err) throw err;
+        });
+    }
 });
 
 // Listen for incoming server requests.
