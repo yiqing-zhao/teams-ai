@@ -121,6 +121,8 @@ export class VectraDataSource implements DataSource {
             connector = '\n\n';
         }
 
+        console.log(`VectraDataSource: ${output}`);
+
         return { output, length, tooLong: length > maxTokens };
     }
 

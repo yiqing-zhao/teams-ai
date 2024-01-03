@@ -5,6 +5,7 @@
 import { config } from 'dotenv';
 import * as path from 'path';
 import * as restify from 'restify';
+import { setupConsoleLogToFile } from './utils';
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
@@ -28,6 +29,9 @@ const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(
         MicrosoftAppType: 'MultiTenant'
     })
 );
+
+// Console.log to file
+setupConsoleLogToFile();
 
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about how bots work.
@@ -67,13 +71,19 @@ server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log('\nTo test your bot in Teams, sideload the app manifest.json within Teams Apps.');
 });
 
-import { AI, Application, ActionPlanner, OpenAIModel, PromptManager, TurnState } from '@microsoft/teams-ai';
-import { addResponseFormatter } from './responseFormatter';
+import { AI, Application, ActionPlanner, OpenAIModel, PromptManager, TurnState, PredictedSayCommand } from '@microsoft/teams-ai';
+import { addResponseFormatter, formatResponse } from './responseFormatter';
 import { VectraDataSource } from './VectraDataSource';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ConversationState {}
 type ApplicationTurnState = TurnState<ConversationState>;
+
+// Add additional properties to the predicted say command
+interface QueryResponse extends PredictedSayCommand { 
+    // Data sources should have URLs
+    urls: string[];
+}
 
 if (!process.env.OPENAI_KEY && !process.env.AZURE_OPENAI_KEY) {
     throw new Error('Missing environment variables - please check that OPENAI_KEY or AZURE_OPENAI_KEY is set.');
@@ -121,8 +131,19 @@ planner.prompts.addDataSource(new VectraDataSource({
     indexFolder: path.join(__dirname, '../index'),
 }));
 
-// Add a custom response formatter to convert markdown code blocks to <pre> tags
+// Register core AI actions
 addResponseFormatter(app);
+
+app.ai.action<QueryResponse>("AnswerQuery", async (context: TurnContext, state: ApplicationTurnState, parameters: QueryResponse) => {
+    const formattedResponse = formatResponse(parameters.response);
+    await context.sendActivity(`ANSWER: ${formattedResponse}`);
+
+    if (parameters.urls && parameters.urls.length > 0){
+        await context.sendActivity(`SOURCES:<br> ${parameters.urls.join('<br>')}`);
+    }
+
+    return AI.StopCommandName;
+});
 
 // Register other AI actions
 app.ai.action(
