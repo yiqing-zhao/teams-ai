@@ -20,6 +20,6 @@ server.post('/api/messages', async (req, res) => {
 });
 
 server.listen(port, () => {
-    log(`\nlistening on ${port} 🚀`);
-    log('\nTo test your bot in Teams, sideload the app manifest.json within Teams Apps.');
+    log(`listening on ${port} 🚀`);
+    log('To test your bot in Teams, sideload the app manifest.json within Teams Apps.');
 });
