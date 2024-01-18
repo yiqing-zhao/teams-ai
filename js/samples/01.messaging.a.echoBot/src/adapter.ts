@@ -24,7 +24,7 @@ adapter.onTurnError = async (context: TurnContext, err: any) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
-    error(`\n [onTurnError] unhandled error: ${err}`);
+    error(`[onTurnError] unhandled error: ${err}`);
     error(err);
 
     // Send a trace activity, which will be displayed in Bot Framework Emulator
