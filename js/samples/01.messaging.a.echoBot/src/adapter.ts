@@ -2,9 +2,8 @@
 // Licensed under the MIT License.
 
 import debug from 'debug';
+import { TeamsAdapter } from '@microsoft/teams-ai';
 import {
-    CloudAdapter,
-    ConfigurationBotFrameworkAuthentication,
     ConfigurationServiceClientCredentialFactory,
     TurnContext
 } from 'botbuilder';
@@ -12,14 +11,14 @@ import {
 const error = debug('echo:adapter:error');
 
 // See https://aka.ms/about-bot-adapter to learn more about how bots work.
-export const adapter = new CloudAdapter(new ConfigurationBotFrameworkAuthentication(
+export const adapter = new TeamsAdapter(
     {},
     new ConfigurationServiceClientCredentialFactory({
         MicrosoftAppId: process.env.BOT_ID,
         MicrosoftAppPassword: process.env.BOT_PASSWORD,
         MicrosoftAppType: 'MultiTenant'
     })
-));
+);
 
 adapter.onTurnError = async (context: TurnContext, err: any) => {
     // This check writes out errors to console log .vs. app insights.
