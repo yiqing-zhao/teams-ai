@@ -248,7 +248,7 @@
     jsonwebtoken "^9.0.0"
     uuid "^8.3.0"
 
-"@azure/msal-node@^2.6.1":
+"@azure/msal-node@^2.6.0", "@azure/msal-node@^2.6.1":
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/@azure/msal-node/-/msal-node-2.6.1.tgz#097f2def63b70acb11a84ee74d6989ba2315f4af"
   integrity sha512-wYwz83pWatTNWUCkTi3cAOXbchad5FnZz/pbZz7b8Z6FuEqohXcTtg6BLip9SmcjN6FlbwUdJIZYOof2v1Gnrg==
@@ -872,6 +872,22 @@
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@microsoft/recognizers-text/-/recognizers-text-1.3.1.tgz#eda98a9148101ecdb04ed1424082d472b04aabd9"
   integrity sha512-HikLoRUgSzM4OKP3JVBzUUp3Q7L4wgI17p/3rERF01HVmopcujY3i6wgx8PenCwbenyTNxjr1AwSDSVuFlYedQ==
+
+"@microsoft/teams-ai@~1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/teams-ai/-/teams-ai-1.0.1.tgz#f9e520003ca9d79e51fa3e7d8226ac48d5110913"
+  integrity sha512-FdiwPAyl4QUbl5zH6H/eGGc+t4tOmaHK2beArnBo46sb2I9RYURltGPpbOG8ebutOQwydt4Ocwg0A9diLF94VA==
+  dependencies:
+    "@azure/msal-node" "^2.6.0"
+    axios "^1.6.2"
+    botbuilder "^4.21.2"
+    botbuilder-dialogs "^4.21.2"
+    gpt-3-encoder "^1.1.4"
+    json-colorizer "^2.2.2"
+    jsonschema "1.4.1"
+    openai "^4.20.1"
+    uuid "^9.0.1"
+    yaml "^2.3.4"
 
 "@microsoft/teamsfx@^2.3.0":
   version "2.3.0"
@@ -2033,7 +2049,7 @@ axios@^0.27.2:
     follow-redirects "^1.14.9"
     form-data "^4.0.0"
 
-axios@^1.3.4, axios@^1.6.0, axios@^1.6.5:
+axios@^1.3.4, axios@^1.6.0, axios@^1.6.2, axios@^1.6.5:
   version "1.6.5"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.5.tgz#2c090da14aeeab3770ad30c3a1461bc970fb0cd8"
   integrity sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==
@@ -2170,7 +2186,7 @@ botbuilder-dialogs-adaptive-runtime-core@4.21.4-preview:
   dependencies:
     dependency-graph "^0.10.0"
 
-"botbuilder-dialogs@>=4.18.0 <5.0.0", botbuilder-dialogs@^4.21.4:
+"botbuilder-dialogs@>=4.18.0 <5.0.0", botbuilder-dialogs@^4.21.2, botbuilder-dialogs@^4.21.4:
   version "4.21.4"
   resolved "https://registry.yarnpkg.com/botbuilder-dialogs/-/botbuilder-dialogs-4.21.4.tgz#fb0c3771949b3c56bd7f77d189e6afc536bd5479"
   integrity sha512-0upYYIhyh1K0IiDA0wStiNFqIv3zTFQAIXy+hzsZUDmzbrcfrtYNeweobprS3lwMU5iiwq/JF1lkt7ckRyp54A==
@@ -2192,7 +2208,7 @@ botbuilder-stdlib@4.21.4-internal:
   resolved "https://registry.yarnpkg.com/botbuilder-stdlib/-/botbuilder-stdlib-4.21.4-internal.tgz#275a31036f5eeebfd0be88b6ab9e2c6b7849820e"
   integrity sha512-R7txHqqLQgMjud8bfeD5ZPW0ygH1uv+E+plnssGF9frGNFh341ea+y0T9MZqp7xHEIAtLF6IazEnz7U8DzkzNQ==
 
-"botbuilder@>=4.18.0 <5.0.0", botbuilder@^4.21.4:
+"botbuilder@>=4.18.0 <5.0.0", botbuilder@^4.21.2, botbuilder@^4.21.4:
   version "4.21.4"
   resolved "https://registry.yarnpkg.com/botbuilder/-/botbuilder-4.21.4.tgz#8aee2928741c5fd6668b4e232a7c4f5266805a78"
   integrity sha512-sW44guz6tm8cxwOq6Tm6Ag1+agBR6lhAvmhf8Xk/jRkjv+KJYJLRdFFmKw483ox5iGbRFj51sa603ivpmKqUhA==
@@ -7098,7 +7114,7 @@ openai@^3.2.1:
     axios "^0.26.0"
     form-data "^4.0.0"
 
-openai@^4.24.7:
+openai@^4.20.1, openai@^4.24.7:
   version "4.24.7"
   resolved "https://registry.yarnpkg.com/openai/-/openai-4.24.7.tgz#65b206bcf15c11202f758b5e1e945ffa13fd6b7f"
   integrity sha512-JUesECWPtsDHO0TlZGb6q73hnAmXUdzj9NrwgZeL4lqlRt/kR1sWrXoy8LocxN/6uOtitywvcJqe0O1PLkG45g==

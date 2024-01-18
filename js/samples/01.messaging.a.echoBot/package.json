@@ -9,27 +9,29 @@
         "build": "tsc --build",
         "clean": "rimraf node_modules lib tsconfig.tsbuildinfo",
         "lint": "eslint **/**/src/**/*.{j,t}s{,x} --fix --no-error-on-unmatched-pattern",
-        "start": "tsc --build && node ./lib/index.js",
+        "start": "cross-env DEBUG=echo* tsc --build && node -r dotenv/config .",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "watch": "nodemon --watch ./src -e ts --exec \"yarn start\"",
-        "dev:teamsfx": "nodemon --exec node --inspect=9239 --signal SIGINT -r ts-node/register ./src/index.ts"
+        "watch": "cross-env DEBUG=echo* nodemon --watch ./src -e ts --exec \"yarn start\"",
+        "dev:teamsfx": "cross-env DEBUG=echo* nodemon --exec node --inspect=9239 --signal SIGINT -r ts-node/register -r dotenv/config ./src/index.ts"
     },
     "repository": {
         "type": "git",
         "url": "https://github.com"
     },
     "dependencies": {
-        "botbuilder": "^4.21.4",
         "@microsoft/teams-ai": "~1.0.1",
+        "botbuilder": "^4.21.4",
+        "debug": "^4.3.4",
         "dotenv": "^16.3.1",
-        "replace": "~1.2.0",
-        "restify": "~11.1.0"
+        "express": "^4.18.2"
     },
     "devDependencies": {
+        "@types/debug": "^4.1.12",
         "@types/dotenv": "8.2.0",
-        "@types/restify": "8.5.12",
+        "@types/express": "^4.17.21",
+        "cross-env": "^7.0.3",
         "nodemon": "~3.0.1",
-        "typescript": "^5.3.3",
-        "ts-node": "^10.9.2"
+        "ts-node": "^10.9.2",
+        "typescript": "^5.3.3"
     }
 }
