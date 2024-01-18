@@ -11,7 +11,6 @@ import {
 
 const error = debug('echo:adapter:error');
 
-// Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about how bots work.
 export const adapter = new CloudAdapter(new ConfigurationBotFrameworkAuthentication(
     {},
