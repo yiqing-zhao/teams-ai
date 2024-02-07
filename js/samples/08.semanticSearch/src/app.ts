@@ -36,12 +36,24 @@ export const app = new Application<TurnState<ConversationState>>({
             MicrosoftAppType: 'MultiTenant'
         })
     ),
+    authentication: {
+        settings: {
+            graph: {
+                connectionName: process.env.OAUTH_CONNECTION_NAME ?? '',
+                title: 'Sign in',
+                text: 'Please sign in to use the bot.',
+                endOnInvalidMessage: true,
+                // enableSso: true
+            }
+        },
+        autoSignIn: true
+    },
     ai: {
         planner: new ActionPlanner({
             defaultPrompt: 'default',
             prompts: new PromptManager({
                 promptsFolder: path.join(__dirname, '../src/prompts')
-            }).addDataSource(new SemanticSearchDataSource()),
+            }).addDataSource(new SemanticSearchDataSource('graph')),
             model: new OpenAIModel({
                 // OpenAI Support
                 apiKey: process.env.OPENAI_KEY!,

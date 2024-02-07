@@ -8,11 +8,11 @@ import { SemanticSearchClientResponse } from './ClientResponse';
 export class SemanticSearchClient {
     private readonly _http: AxiosInstance;
 
-    constructor() {
+    constructor(token: string) {
         this._http = axios.create({
             baseURL: 'https://graph.microsoft.com/v1.0',
             headers: {
-                'Authorization': process.env.SS_TOKEN,
+                'Authorization': token,
                 'User-Agent': `teamsai-js/${packageInfo.version}`,
                 'Content-Type': 'application/json'
             }

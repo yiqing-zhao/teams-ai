@@ -1,4 +1,4 @@
-import { DataSource, RenderedPromptSection, Memory, Tokenizer } from '@microsoft/teams-ai';
+import { DataSource, RenderedPromptSection, Tokenizer, TurnState } from '@microsoft/teams-ai';
 import { TurnContext } from 'botbuilder';
 
 import { SemanticSearchClient } from './Client';
@@ -7,21 +7,33 @@ import { DriveItem, List, ListItem, ResourceTypes } from './resourceTypes';
 export class SemanticSearchDataSource implements DataSource {
     readonly name = 'semantic-search';
 
-    private readonly _client = new SemanticSearchClient();
+    private readonly _authTokenKey: string;
     private readonly _entityTypes: (keyof ResourceTypes)[];
 
-    constructor(...entityTypes: (keyof ResourceTypes)[]) {
+    constructor(authTokenKey: string, ...entityTypes: (keyof ResourceTypes)[]) {
+        this._authTokenKey = authTokenKey;
         this._entityTypes = entityTypes.length > 0 ? entityTypes : ['driveItem', 'list', 'listItem'];
     }
 
     async renderData(
         _context: TurnContext,
-        memory: Memory,
+        state: TurnState,
         tokenizer: Tokenizer,
         maxTokens: number
     ): Promise<RenderedPromptSection<string>> {
-        const input = memory.getValue('temp.input') as string;
-        const res = await this._client.query({
+        const input = state.temp.input;
+        const token = state.temp.authTokens[this._authTokenKey];
+
+        if (!token || !input) {
+            return {
+                output: '',
+                length: 0,
+                tooLong: false,
+            };
+        }
+
+        const client = new SemanticSearchClient(token);
+        const res = await client.query({
             entityTypes: this._entityTypes,
             query: {
                 queryString: input

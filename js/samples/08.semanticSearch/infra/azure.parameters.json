@@ -15,7 +15,10 @@
       "value": "B1"
     },
     "botDisplayName": {
-      "value": "EchoBotInfra"
+      "value": "SemanticSearchBotInfra"
+    },
+    "oauthConnectionName": {
+      "value": "${{OAUTH_CONNECTION_NAME}}"
     }
   }
 }
