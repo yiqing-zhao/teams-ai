@@ -14,6 +14,7 @@ import {
     ConfigurationBotFrameworkAuthenticationOptions,
     MemoryStorage
 } from 'botbuilder';
+import { ActionPlanner, PromptManager, OpenAIModel, TurnState } from '@microsoft/teams-ai';
 import { SearchAppAI } from './searchApp.ai';
 
 // Read botFilePath and botFileSecret from .env file.
@@ -61,10 +62,43 @@ server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log('\nTo test your bot in Teams, sideload the app manifest.json within Teams Apps.');
 });
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface ConversationState {}
+type ApplicationTurnState = TurnState<ConversationState>;
+
+if (!process.env.OPENAI_KEY && !process.env.AZURE_OPENAI_KEY) {
+    throw new Error('Missing environment variables - please check that OPENAI_KEY or AZURE_OPENAI_KEY is set.');
+}
+
+// Create AI components
+const model = new OpenAIModel({
+    // OpenAI Support
+    apiKey: process.env.OPENAI_KEY!,
+    defaultModel: 'gpt-3.5-turbo',
+
+    // Azure OpenAI Support
+    azureApiKey: process.env.AZURE_OPENAI_KEY!,
+    azureDefaultDeployment: 'gpt-3.5-turbo',
+    azureEndpoint: process.env.AZURE_OPENAI_ENDPOINT!,
+    azureApiVersion: '2023-03-15-preview',
+
+    // Request logging
+    logRequests: true
+});
+
+const prompts = new PromptManager({
+    promptsFolder: path.join(__dirname, '../src/prompts')
+});
+
+const planner = new ActionPlanner({
+    model,
+    prompts,
+    defaultPrompt: 'chat'
+});
+
 // Define storage and application
 const storage = new MemoryStorage();
-
-const appAi = new SearchAppAI(storage);
+const appAi = new SearchAppAI(storage,  planner);
 
 // Listen for incoming server requests.
 server.post('/api/messages', async (req, res) => {

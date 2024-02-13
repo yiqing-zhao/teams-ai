@@ -1,4 +1,4 @@
-import { Application, Query, TurnState } from '@microsoft/teams-ai';
+import { ActionPlanner, Application, Query, TurnState } from '@microsoft/teams-ai';
 // import { Application, Query, TurnState } from './microsoft/teams-ai';
 import {
     CardFactory,
@@ -14,11 +14,15 @@ export type TData = Record<string, any | any[]>;
 
 export class SearchAppAI extends Application<TurnState> {
     public static readonly MessageExtensionCommand = 'searchQuery';
-    private hasBeenReviewed = false;
     private adaptiveCardFactory = new AdaptiveCardFactory();
 
-    constructor(storage: MemoryStorage) {
-        super({ storage });
+    constructor(storage: MemoryStorage, planner: ActionPlanner<TurnState>) {
+        super({ 
+            storage,
+            ai: {
+                planner
+            }
+        });
 
         /**
          * Handles the query command for the message extension.
@@ -111,10 +115,6 @@ export class SearchAppAI extends Application<TurnState> {
             // TODO this hasBeenReviewed bool is for demo purposes only
             // It should be replaced with a call to Sightline to update that the
             // user has reviewed the document
-            this.hasBeenReviewed = true;
-            const deliverable = Deliverables.find((deliverable) => deliverable.id === data.id);
-            const documentUrl = deliverable ? deliverable.url : '';
-
             const result: TaskModuleTaskInfo = {
                 title: 'Expense Approval',
                 height: 1000,

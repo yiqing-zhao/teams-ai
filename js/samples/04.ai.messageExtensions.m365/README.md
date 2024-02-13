@@ -42,8 +42,29 @@ This sample shows how to incorporate a basic Message Extension app into a Micros
 3. In a terminal, navigate to the sample root.
 
     ```bash
-    cd teams-ai/js/samples/01.messageExtensions.a.searchCommand/
+    cd teams-ai/js/samples/04.ai.messageExtensions.m365/
     ```
+
+4. Create a new `.env.local` file in your editor and fill the following fields:
+
+```bash
+# This file includes environment variables that can be committed to git. It's gitignored by default because it represents your local development environment.
+
+# Built-in environment variables
+TEAMSFX_ENV=local
+APP_NAME=<insert your app name here>
+APP_VERSION=<insert your app version here>
+
+# Generated during provision, you can also add your own variables.
+BOT_ID=
+TEAMS_APP_ID=
+BOT_DOMAIN=
+BOT_ENDPOINT=
+TEAMS_APP_TENANT_ID=
+M365_TITLE_ID=
+M365_APP_ID=
+
+```
 
 ## Interacting with the bot
 
