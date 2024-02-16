@@ -7,15 +7,12 @@ import debug from 'debug';
 
 import { app } from './app';
 
-const log = debug('semantic:server');
+const log = debug('m365:server');
 const port = process.env.port || process.env.PORT || 3978;
 const server = express().use(express.json());
 
-// Listen for incoming server requests.
 server.post('/api/messages', async (req, res) => {
-    // Route received a request to adapter for processing
     await (app.adapter as TeamsAdapter).process(req, res as any, async (context) => {
-        // Dispatch to application for routing
         await app.run(context);
     });
 });

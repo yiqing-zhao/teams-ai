@@ -1,9 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
-import packageInfo from '../package.json';
-
-import { SemanticSearchClientRequest } from './ClientRequest';
-import { SemanticSearchClientResponse } from './ClientResponse';
+import { SemanticSearchClientRequest } from './request';
+import { SemanticSearchClientResponse } from './response';
 
 export class SemanticSearchClient {
     private readonly _http: AxiosInstance;
@@ -13,7 +11,6 @@ export class SemanticSearchClient {
             baseURL: 'https://graph.microsoft.com/v1.0',
             headers: {
                 'Authorization': token,
-                'User-Agent': `teamsai-js/${packageInfo.version}`,
                 'Content-Type': 'application/json'
             }
         });

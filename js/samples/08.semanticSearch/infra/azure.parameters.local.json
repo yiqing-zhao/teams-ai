@@ -12,7 +12,7 @@
             "value": "${{SECRET_BOT_PASSWORD}}"
         },
         "botDisplayName": {
-            "value": "SemanticSearch-${{TEAMSFX_ENV}}"
+            "value": "M365 Copilot ${{TEAMSFX_ENV}}"
         },
         "botAppDomain": {
             "value": "${{BOT_DOMAIN}}"

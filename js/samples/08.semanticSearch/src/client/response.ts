@@ -1,4 +1,4 @@
-import { DriveItem, List, ListItem } from './resourceTypes';
+import { DriveItem, List, ListItem } from './resource-types';
 
 export interface SemanticSearchClientResponse {
     '@odata.context': string;

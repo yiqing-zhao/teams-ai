@@ -1,5 +1,5 @@
 {
-    "name": "semanticsearch-demo",
+    "name": "m365-copilot",
     "version": "1.0.0",
     "description": "A semantic search bot sample",
     "author": "Microsoft",
@@ -12,7 +12,7 @@
         "start": "cross-env DEBUG=semantic* tsc --build && node -r dotenv/config .",
         "test": "echo \"Error: no test specified\" && exit 1",
         "watch": "nodemon --watch ./src -e ts --exec \"yarn start\"",
-        "dev:teamsfx": "cross-env DEBUG=semantic* nodemon --exec node --inspect=9239 --signal SIGINT -r ts-node/register -r dotenv/config ./src/index.ts"
+        "dev:teamsfx": "cross-env DEBUG=m365* nodemon --exec node --inspect=9239 --signal SIGINT -r ts-node/register -r dotenv/config ./src/index.ts"
     },
     "repository": {
         "type": "git",

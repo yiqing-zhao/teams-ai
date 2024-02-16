@@ -1,7 +1,7 @@
 {
     "id": "${{AAD_APP_OBJECT_ID}}",
     "appId": "${{BOT_ID}}",
-    "name": "SemanticSearch-${{TEAMSFX_ENV}}",
+    "name": "M365 Copilot ${{TEAMSFX_ENV}}",
     "accessTokenAcceptedVersion": 2,
     "signInAudience": "AzureADMultipleOrgs",
     "optionalClaims": {

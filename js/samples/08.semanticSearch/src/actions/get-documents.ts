@@ -1,14 +1,15 @@
 import debug from 'debug';
 import { TurnState } from '@microsoft/teams-ai';
-import { SemanticSearchClient, DriveItem } from '@microsoft/teams-ai-semantic-search';
 import { TurnContext } from 'botbuilder';
+
+import { SemanticSearchClient, DriveItem } from '../client';
 
 interface GetDocumentsActionParams {
     readonly term?: string;
 }
 
 export function getDocuments() {
-    const log = debug('semantic:actions:GetDocuments');
+    const log = debug('m365:actions:GetDocuments');
 
     return async (_context: TurnContext, state: TurnState, params: GetDocumentsActionParams): Promise<string> => {
         const token = state.temp.authTokens['graph'];

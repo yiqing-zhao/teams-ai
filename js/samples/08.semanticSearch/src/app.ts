@@ -21,7 +21,7 @@ interface ConversationState {
     count: number;
 }
 
-const error = debug('semantic:app:error');
+const error = debug('m365:app:error');
 
 if (!process.env.OPENAI_KEY && !process.env.AZURE_OPENAI_KEY) {
     throw new Error('Missing environment variables - please check that OPENAI_KEY or AZURE_OPENAI_KEY is set.');
