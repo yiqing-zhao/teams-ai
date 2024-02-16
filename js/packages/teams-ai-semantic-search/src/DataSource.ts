@@ -1,4 +1,4 @@
-import { DataSource, RenderedPromptSection, Tokenizer, TurnState } from '@microsoft/teams-ai';
+import { DataSource, RenderedPromptSection, Tokenizer, Memory } from '@microsoft/teams-ai';
 import { TurnContext } from 'botbuilder';
 
 import { SemanticSearchClient } from './Client';
@@ -17,12 +17,13 @@ export class SemanticSearchDataSource implements DataSource {
 
     async renderData(
         _context: TurnContext,
-        state: TurnState,
+        memory: Memory,
         tokenizer: Tokenizer,
         maxTokens: number
     ): Promise<RenderedPromptSection<string>> {
-        const input = state.temp.input;
-        const token = state.temp.authTokens[this._authTokenKey];
+        const input = memory.getValue('temp.input') as string | undefined;
+        const tokens = memory.getValue('temp.authTokens') as { [key: string]: string | undefined };
+        const token = tokens[this._authTokenKey];
 
         if (!token || !input) {
             return {

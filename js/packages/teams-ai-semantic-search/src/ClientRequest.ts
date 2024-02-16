@@ -4,4 +4,6 @@ export interface SemanticSearchClientRequest {
     query: {
         queryString: string;
     };
+    from?: number;
+    size?: number;
 }

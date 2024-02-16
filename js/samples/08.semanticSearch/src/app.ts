@@ -1,6 +1,5 @@
 import debug from 'debug';
 import path from 'path';
-import { SemanticSearchDataSource } from '@microsoft/teams-ai-semantic-search';
 import {
     Application,
     TeamsAdapter,
@@ -15,6 +14,8 @@ import {
     MemoryStorage,
     ConfigurationServiceClientCredentialFactory
 } from 'botbuilder';
+
+import * as actions from './actions';
 
 interface ConversationState {
     count: number;
@@ -53,7 +54,7 @@ export const app = new Application<TurnState<ConversationState>>({
             defaultPrompt: 'default',
             prompts: new PromptManager({
                 promptsFolder: path.join(__dirname, '../src/prompts')
-            }).addDataSource(new SemanticSearchDataSource('graph')),
+            }),
             model: new OpenAIModel({
                 // OpenAI Support
                 apiKey: process.env.OPENAI_KEY!,
@@ -66,12 +67,15 @@ export const app = new Application<TurnState<ConversationState>>({
                 azureApiVersion: '2023-03-15-preview',
             
                 // Request logging
-                logRequests: true
+                logRequests: true,
+                useSystemMessages: true
             })
         })
     }
 });
 
+app.ai.action('GetDocument', actions.getDocument());
+app.ai.action('GetDocuments', actions.getDocuments());
 app.error(async (context: TurnContext, err: any) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
