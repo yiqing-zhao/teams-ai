@@ -35,9 +35,9 @@ export function getDocument() {
         );
 
         return JSON.stringify(hits.map(h => ({
-            id: h.resource?.id,
+            id: h.hitId,
             name: (h.resource as DriveItem)?.name,
-            summary: h.summary,
+            content: h.summary,
             createdBy: (h.resource as DriveItem)?.createdBy,
             createdDateTime: (h.resource as DriveItem)?.createdDateTime
         })));

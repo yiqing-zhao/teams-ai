@@ -4,6 +4,9 @@ export interface DriveItem {
     name: string;
     size: number;
     webUrl: string;
+    listItem?: {
+        id: string;
+    };
     fileSystemInfo: {
         createdDateTime: string;
         lastModifiedDateTime: string;

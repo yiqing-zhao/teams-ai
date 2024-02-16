@@ -35,8 +35,9 @@ export function getDocuments() {
         );
 
         return JSON.stringify(hits.map(h => ({
-            id: h.resource?.id,
-            name: (h.resource as DriveItem)?.name
+            id: h.hitId,
+            name: (h.resource as DriveItem)?.name,
+            url: (h.resource as DriveItem)?.webUrl
         })));
     };
 }

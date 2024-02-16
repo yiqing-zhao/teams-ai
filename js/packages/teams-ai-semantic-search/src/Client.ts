@@ -22,4 +22,10 @@ export class SemanticSearchClient {
     query(...requests: SemanticSearchClientRequest[]) {
         return this._http.post<SemanticSearchClientResponse>('/search/query', { requests });
     }
+
+    getDriveItem(id: string) {
+        return this._http.get<{
+            readonly '@microsoft.graph.downloadUrl': string
+        }>(`/drive/items/${id}?select=@microsoft.graph.downloadUrl`);
+    }
 }
