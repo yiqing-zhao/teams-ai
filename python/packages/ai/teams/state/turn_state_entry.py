@@ -79,3 +79,4 @@ class TurnStateEntry:
             value (Optional[Dict[str, Any]], optional): New value to replace the state scope with.
         """
         self._value = value or {}
+        self._deleted = False
