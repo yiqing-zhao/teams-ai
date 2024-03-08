@@ -11,12 +11,11 @@ interface GetDocumentActionParams {
 export function getDocument() {
     const log = debug('m365:actions:GetDocument');
 
-    return async (_context: TurnContext, state: TurnState, params: GetDocumentActionParams): Promise<string> => {
+    return async (context: TurnContext, state: TurnState, params: GetDocumentActionParams): Promise<string> => {
         const token = state.temp.authTokens['graph'];
 
         if (!token) {
-            log('no token found');
-            return '';
+            return 'no auth token found';
         }
 
         const client = new SemanticSearchClient(token);
@@ -29,18 +28,25 @@ export function getDocument() {
             size: 1
         });
 
-        const hits = res.data.value.flatMap(v =>
+        const hit = res.data.value.flatMap(v =>
             (v.hitsContainers || []).flatMap(c =>
                 c.hits || []
             )
-        );
+        ).pop();
 
-        return JSON.stringify(hits.map(h => ({
-            id: h.hitId,
-            name: (h.resource as DriveItem)?.name,
-            content: h.summary,
-            createdBy: (h.resource as DriveItem)?.createdBy,
-            createdDateTime: (h.resource as DriveItem)?.createdDateTime
-        })));
+        if (!hit) {
+            return `document ${params.name} not found`;
+        }
+
+        const resource = hit.resource as DriveItem
+
+        return JSON.stringify({
+            id: resource.id,
+            siteId: resource.parentReference.siteId,
+            name: resource.name,
+            summary: hit.summary,
+            createdBy: resource.createdBy.user,
+            createdDateTime: resource.createdDateTime
+        });
     };
 }

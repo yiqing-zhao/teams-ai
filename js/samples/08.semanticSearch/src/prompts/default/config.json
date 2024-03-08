@@ -1,6 +1,6 @@
 {
     "schema": 1.1,
-    "description": "Chat Using Semantic Search",
+    "description": "Chat Using M365",
     "type": "completion",
     "completion": {
         "model": "gpt-3.5-turbo",

@@ -37,6 +37,7 @@ export function getDocuments() {
 
         return JSON.stringify(hits.map(h => ({
             id: h.hitId,
+            siteId: (h.resource as DriveItem)?.parentReference.siteId,
             name: (h.resource as DriveItem)?.name,
             url: (h.resource as DriveItem)?.webUrl
         })));

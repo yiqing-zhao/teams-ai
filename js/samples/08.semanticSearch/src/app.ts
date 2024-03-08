@@ -76,6 +76,8 @@ export const app = new Application<TurnState<ConversationState>>({
 
 app.ai.action('GetDocument', actions.getDocument());
 app.ai.action('GetDocuments', actions.getDocuments());
+app.ai.action('RenderDocument', actions.renderDocument());
+app.ai.action('RenderDocuments', actions.renderDocuments());
 app.error(async (context: TurnContext, err: any) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure

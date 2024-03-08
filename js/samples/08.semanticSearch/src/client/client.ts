@@ -2,6 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 
 import { SemanticSearchClientRequest } from './request';
 import { SemanticSearchClientResponse } from './response';
+import { DriveItem, Thumbnails } from './resource-types';
 
 export class SemanticSearchClient {
     private readonly _http: AxiosInstance;
@@ -20,9 +21,21 @@ export class SemanticSearchClient {
         return this._http.post<SemanticSearchClientResponse>('/search/query', { requests });
     }
 
-    getDriveItem(id: string) {
-        return this._http.get<{
+    getDriveItem(siteId: string, id: string) {
+        return this._http.get<DriveItem & {
             readonly '@microsoft.graph.downloadUrl': string
-        }>(`/drive/items/${id}?select=@microsoft.graph.downloadUrl`);
+        }>(`/sites/${siteId}/drive/items/${id}`);
+    }
+
+    getDriveItemContent(siteId: string, id: string) {
+        return this._http.get<ArrayBuffer>(`/sites/${siteId}/drive/items/${id}/content`, {
+            responseType: 'arraybuffer'
+        });
+    }
+
+    getDriveItemThumbnails(siteId: string, id: string) {
+        return this._http.get<{
+            value: Thumbnails[]
+        }>(`/sites/${siteId}/drive/items/${id}/thumbnails`);
     }
 }

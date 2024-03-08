@@ -34,5 +34,8 @@ export interface DriveItem {
             email: string;
         };
     };
+    file?: {
+        mimeType: string;
+    };
     lastModifiedDateTime: string;
 }

@@ -15,7 +15,7 @@
     },
     {
         "name": "GetDocuments",
-        "description": "Gets all documents matching a search term",
+        "description": "Gets multiple documents matching a search term",
         "parameters": {
             "type": "object",
             "properties": {
@@ -24,6 +24,61 @@
                     "description": "The search term"
                 }
             }
+        }
+    },
+    {
+        "name": "RenderDocument",
+        "description": "used to render document views",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "document": {
+                    "type": "object",
+                    "parameters": {
+                        "id": { "type": "string" },
+                        "siteId": { "type": "string" },
+                        "name": {
+                            "type": "string",
+                            "description": "the documents name"
+                        },
+                        "summary": {
+                            "type": "string",
+                            "description": "the documents summary"
+                        }
+                    },
+                    "required": ["id", "siteId", "name"]
+                }
+            },
+            "required": ["document"]
+        }
+    },
+    {
+        "name": "RenderDocuments",
+        "description": "used to render multiple document views",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documents": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "parameters": {
+                            "id": { "type": "string" },
+                            "siteId": { "type": "string" },
+                            "name": {
+                                "type": "string",
+                                "description": "the documents name"
+                            },
+                            "summary": {
+                                "type": "string",
+                                "description": "the documents summary"
+                            }
+                        },
+                        "required": ["id", "siteId", "name"]
+                    }
+                }
+            },
+            "required": ["documents"]
         }
     }
 ]
